@@ -1,0 +1,10 @@
+load("//tools/rust:defs.bzl", "rust_proc_macro")
+
+rust_proc_macro(
+    name = "macros",
+    visibility = ["//rust_example:__subpackages__"],
+    deps = [
+        "@crates_io//:quote",
+        "@crates_io//:syn",
+    ],
+)

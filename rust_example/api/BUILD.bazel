@@ -1,0 +1,10 @@
+load("//tools/rust:defs.bzl", "rust_library")
+
+rust_library(
+    name = "api",
+    visibility = ["//rust_example:__subpackages__"],
+    deps = [
+        "@crates_io//:chrono",
+        "@crates_io//:serde",
+    ],
+)

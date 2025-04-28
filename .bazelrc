@@ -1,0 +1,40 @@
+
+# Enable bzlmod support.
+common --enable_bzlmod
+
+# Add the platform name to the output directory.
+build --experimental_platform_in_output_dir
+
+# Use the blake3 digest function which is significantly faster than sha256.
+startup --digest_function=blake3
+
+# Enable the use of the platform specific config files.
+# This allows for `build:<platform>` (eg. `build:linux` or `build:windows`) to 
+# specify platform-specific configurations.
+common --enable_platform_specific_config=true
+
+# Bazel Clippy configuration.
+build:clippy --aspects=@rules_rust//rust:defs.bzl%rust_clippy_aspect
+build:clippy --output_groups=+clippy_checks
+build --@rules_rust//:clippy.toml=//:.clippy.toml
+
+# Bazel Rustfmt configuration.
+build:rustfmt --aspects=@rules_rust//rust:defs.bzl%rustfmt_aspect
+build:rustfmt --output_groups=+rustfmt_checks
+build --@rules_rust//:rustfmt.toml=//:.rustfmt.toml
+
+# Formatting configuration.
+# Add other language formatters here as needed.
+# Use `bazel build --config=fmt //...` to run all format checks.
+build:fmt --config=rustfmt
+
+# Linting configuration.
+# Add other language linters here as needed.
+# Use `bazel test --config=lint //...` to run all linters.
+
+# Lint build setting which can be used to select different compilation flags.
+# See `//tools/rust:defs.bzl` for example usage.
+build:lint --//tools/settings:lint=true
+
+# Linting configuration for Rust using Clippy.
+build:lint --config=clippy

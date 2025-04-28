@@ -1,0 +1,15 @@
+"""Build settings for the project."""
+
+load("@bazel_skylib//rules:common_settings.bzl", "bool_flag")
+
+bool_flag(
+    name = "lint",
+    build_setting_default = False,
+)
+
+config_setting(
+    name = "lint.enabled",
+    flag_values = {
+        ":lint": "true",
+    },
+)
