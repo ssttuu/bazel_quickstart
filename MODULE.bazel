@@ -47,7 +47,7 @@ register_toolchains("@llvm_toolchain//:all")
 ###############################################################################
 # Rust
 ###############################################################################
-bazel_dep(name = "rules_rust", version = "0.57.1")
+bazel_dep(name = "rules_rust", version = "0.60.0")
 
 # Rust toolchain
 RUST_EDITION = "2021"
