@@ -25,6 +25,27 @@ bazel_dep(
     dev_dependency = True,
 )
 
+# https://github.com/bazelbuild/bazel/blob/master/tools/build_defs/repo/http.bzl
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# INTEL/AMD64 Sysroot. LastModified: 2024-04-26T19:15
+# https://commondatastorage.googleapis.com/chrome-linux-sysroot/
+http_archive(
+    name = "sysroot_linux_x64",
+    build_file = "//tools/sysroot:BUILD.bazel",
+    sha256 = "5df5be9357b425cdd70d92d4697d07e7d55d7a923f037c22dc80a78e85842d2c",
+    urls = ["https://commondatastorage.googleapis.com/chrome-linux-sysroot/toolchain/4f611ec025be98214164d4bf9fbe8843f58533f7/debian_bullseye_amd64_sysroot.tar.xz"],
+)
+
+# ARM 64 Sysroot. LastModified: 2024-04-26T18:33
+# https://commondatastorage.googleapis.com/chrome-linux-sysroot/
+http_archive(
+    name = "sysroot_linux_aarch64",
+    build_file = "//tools/sysroot:BUILD.bazel",
+    sha256 = "d303cf3faf7804c9dd24c9b6b167d0345d41d7fe4bfb7d34add3ab342f6a236c",
+    urls = ["https://commondatastorage.googleapis.com/chrome-linux-sysroot/toolchain/906cc7c6bf47d4bd969a3221fc0602c6b3153caa/debian_bullseye_arm64_sysroot.tar.xz"],
+)
+
 ###############################################################################
 # C++
 ###############################################################################
@@ -33,16 +54,34 @@ bazel_dep(name = "toolchains_llvm", version = "1.4.0")
 # Configure and register the toolchain.
 llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
 llvm.toolchain(
-    llvm_versions = {
-        "": "20.1.1",
-        # 15.0.7 is the last version that publishes a darwin-x86_64 toolchain.
-        "darwin-x86_64": "15.0.7",
+    # For simplicity, all toolchains are pinned to LLVM version 16 because it is
+    # one of the few releases that supports many targets and runs on older linux
+    # distributions i.e. Ubuntu 18.04. If you target modern CPU's i.e. ARMv9
+    # that require a more recent LLVM version, see the complete list off all
+    # LLVM releases and supported platforms. Also, it is possible to pin
+    # different targets to different LLVM versions; see the documentation for
+    # details.
+    llvm_version = "16.0.0",
+    stdlib = {
+        "linux-x86_64": "stdc++",
+        "linux-aarch64": "stdc++",
     },
 )
+llvm.sysroot(
+    name = "llvm_toolchain",
+    label = "@sysroot_linux_x64//:sysroot",
+    targets = ["linux-x86_64"],
+)
+llvm.sysroot(
+    name = "llvm_toolchain",
+    label = "@sysroot_linux_aarch64//:sysroot",
+    targets = ["linux-aarch64"],
+)
+
 use_repo(llvm, "llvm_toolchain")
 use_repo(llvm, "llvm_toolchain_llvm")
 
-register_toolchains("@llvm_toolchain//:all")
+register_toolchains("@llvm_toolchain//:all", dev_dependency = True)
 
 ###############################################################################
 # Rust
@@ -58,10 +97,17 @@ rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
 rust.toolchain(
     edition = RUST_EDITION,
     versions = [RUST_VERSION],
+    extra_target_triples = [
+        "aarch64-unknown-linux-gnu",
+        "x86_64-unknown-linux-gnu",
+    ],
 )
 use_repo(rust, "rust_toolchains")
 
 register_toolchains("@rust_toolchains//:all")
+
+# Register specific toolchain for cross-compilation to aarch64 Linux
+register_toolchains("@rust_toolchains//:rust_linux_x86_64__aarch64-unknown-linux-gnu__stable")
 
 crate = use_extension(
     "@rules_rust//crate_universe:extensions.bzl",

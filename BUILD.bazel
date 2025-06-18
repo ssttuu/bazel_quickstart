@@ -36,3 +36,19 @@ alias(
     actual = "@rules_rust//tools/rust_analyzer:gen_rust_project",
     tags = ["manual"],
 )
+
+platform(
+    name = "linux-aarch64",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:aarch64",
+    ],
+)
+
+platform(
+    name = "linux-x86_64",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+)

@@ -5967,7 +5967,7 @@
     "@@toolchains_llvm+//toolchain/extensions:llvm.bzl%llvm": {
       "general": {
         "bzlTransitiveDigest": "CCMLMoMF2hiLRLqzSMKOPV6DCi7WO5MARAn9FYv+kQs=",
-        "usagesDigest": "vN8TSx1UVGIZDeh0yoHMKio7HHx17vUelMXED4JAxhs=",
+        "usagesDigest": "iv6cWVQxuNQkabxMLmbaQtBMC7OY35ifpuAGwQL+BNI=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -5982,11 +5982,8 @@
               "exec_os": "",
               "libclang_rt": {},
               "llvm_mirror": "",
-              "llvm_version": "",
-              "llvm_versions": {
-                "": "20.1.1",
-                "darwin-x86_64": "15.0.7"
-              },
+              "llvm_version": "16.0.0",
+              "llvm_versions": {},
               "netrc": "",
               "sha256": {},
               "strip_prefix": {},
@@ -6013,20 +6010,35 @@
               "link_flags": {},
               "link_libs": {},
               "llvm_versions": {
-                "": "20.1.1",
-                "darwin-x86_64": "15.0.7"
+                "": "16.0.0"
               },
               "opt_compile_flags": {},
               "opt_link_flags": {},
-              "stdlib": {},
+              "stdlib": {
+                "linux-x86_64": "stdc++",
+                "linux-aarch64": "stdc++"
+              },
               "target_settings": {},
               "unfiltered_compile_flags": {},
               "toolchain_roots": {},
-              "sysroot": {}
+              "sysroot": {
+                "linux-x86_64": "'@@+_repo_rules+sysroot_linux_x64//:sysroot'",
+                "linux-aarch64": "'@@+_repo_rules+sysroot_linux_aarch64//:sysroot'"
+              }
             }
           }
         },
         "recordedRepoMappingEntries": [
+          [
+            "",
+            "sysroot_linux_aarch64",
+            "+_repo_rules+sysroot_linux_aarch64"
+          ],
+          [
+            "",
+            "sysroot_linux_x64",
+            "+_repo_rules+sysroot_linux_x64"
+          ],
           [
             "toolchains_llvm+",
             "bazel_skylib",
