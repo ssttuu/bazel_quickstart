@@ -61,7 +61,7 @@ llvm.toolchain(
     # LLVM releases and supported platforms. Also, it is possible to pin
     # different targets to different LLVM versions; see the documentation for
     # details.
-    llvm_version = "16.0.0",
+    llvm_version = "20.1.1",
     stdlib = {
         "linux-x86_64": "stdc++",
         "linux-aarch64": "stdc++",
@@ -105,9 +105,6 @@ rust.toolchain(
 use_repo(rust, "rust_toolchains")
 
 register_toolchains("@rust_toolchains//:all")
-
-# Register specific toolchain for cross-compilation to aarch64 Linux
-register_toolchains("@rust_toolchains//:rust_linux_x86_64__aarch64-unknown-linux-gnu__stable")
 
 crate = use_extension(
     "@rules_rust//crate_universe:extensions.bzl",
