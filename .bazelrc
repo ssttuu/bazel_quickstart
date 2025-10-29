@@ -38,3 +38,24 @@ build:lint --//tools/settings:lint=true
 
 # Linting configuration for Rust using Clippy.
 build:lint --config=clippy
+
+###############################################################################
+# Cross-compilation configurations
+###############################################################################
+
+# Linux x86_64 with glibc (default libc)
+build:linux-x86_64 --platforms=//:linux-x86_64
+
+# Linux x86_64 with musl (static binary)
+build:linux-x86_64-musl --platforms=//:linux-x86_64-musl
+build:linux-x86_64-musl --linkopt=-static
+
+# Linux aarch64 with glibc (default libc)
+build:linux-aarch64 --platforms=//:linux-aarch64
+
+# Linux aarch64 with musl (static binary)
+build:linux-aarch64-musl --platforms=//:linux-aarch64-musl
+build:linux-aarch64-musl --linkopt=-static
+
+# macOS aarch64 (Apple Silicon)
+build:darwin-aarch64 --platforms=//:darwin-aarch64

@@ -60,3 +60,22 @@ platform(
         "@platforms//cpu:arm64",
     ],
 )
+
+# Musl platforms for static binary builds
+platform(
+    name = "linux-x86_64-musl",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+        "//tools/constraints:musl",
+    ],
+)
+
+platform(
+    name = "linux-aarch64-musl",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:aarch64",
+        "//tools/constraints:musl",
+    ],
+)

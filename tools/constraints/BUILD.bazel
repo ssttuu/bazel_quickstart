@@ -1,0 +1,21 @@
+"""Custom constraint settings for cross-compilation."""
+
+constraint_setting(
+    name = "libc",
+    default_constraint_value = ":glibc",
+    visibility = ["//visibility:public"],
+)
+
+constraint_value(
+    name = "musl",
+    constraint_setting = ":libc",
+    visibility = ["//visibility:public"],
+)
+
+# Default libc for anyone not setting the libc to `musl`.
+# You shouldn't ever need to set this value manually.
+constraint_value(
+    name = "glibc",
+    constraint_setting = ":libc",
+    visibility = ["//visibility:public"],
+)
