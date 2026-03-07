@@ -1,7 +1,4 @@
 
-# Enable bzlmod support.
-common --enable_bzlmod
-
 # Add the platform name to the output directory.
 build --experimental_platform_in_output_dir
 

@@ -4,31 +4,31 @@ module(
 
 bazel_dep(
     name = "platforms",
-    version = "0.0.11",
+    version = "1.0.0",
 )
 bazel_dep(
     name = "bazel_skylib",
-    version = "1.7.1",
+    version = "1.8.2",
 )
 bazel_dep(
     name = "rules_shell",
-    version = "0.4.0",
+    version = "0.6.1",
 )
 bazel_dep(
     name = "rules_multirun",
-    version = "0.11.0",
+    version = "0.13.0",
 )
 
 bazel_dep(
     name = "buildifier_prebuilt",
-    version = "8.0.3",
+    version = "8.2.1.2",
     dev_dependency = True,
 )
 
 ###############################################################################
 # C++
 ###############################################################################
-bazel_dep(name = "toolchains_llvm", version = "1.4.0")
+bazel_dep(name = "toolchains_llvm", version = "1.6.0")
 
 # Configure and register the toolchain.
 llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
@@ -47,12 +47,12 @@ register_toolchains("@llvm_toolchain//:all")
 ###############################################################################
 # Rust
 ###############################################################################
-bazel_dep(name = "rules_rust", version = "0.60.0")
+bazel_dep(name = "rules_rust", version = "0.69.0")
 
 # Rust toolchain
-RUST_EDITION = "2021"
+RUST_EDITION = "2024"
 
-RUST_VERSION = "1.86.0"
+RUST_VERSION = "1.94.0"
 
 rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
 rust.toolchain(

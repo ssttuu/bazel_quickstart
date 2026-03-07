@@ -1,2 +1,0 @@
-# This file is here entirely so that ibazel can find the workspace root.
-# See `//:MODULE.bazel`.
